@@ -22,13 +22,6 @@ app.get("/", (req, res) => res.send("<h1>Home</h1>"));
 
 
 
-
-
-
-
-
-
-
 const handleListening = () => console.log(`Server listening on port http://localhost:${PORT}`);
 
 
