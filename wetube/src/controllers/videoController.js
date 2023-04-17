@@ -1,17 +1,16 @@
-export const trending = (req, res) => res.send("Homepage showing trending videos");
+const tempUser = {
+    username: "Baskin",
+    loggedIn: true,
+};
 
-export const see = (req, res) => {
-    console.log(req.params);
-    res.send(`Watch video ${req.params.id}`);
+export const trending = (req, res) => {
+    const videos = [1, 2, 3, 4, 5];
+    return res.render("home.pug", { pageTitle: "Home", tempUser: tempUser, videos});
 }
-
-export const edit = (req, res) => {
-    console.log(req.params);
-    res.send("Edit video");
-}
+export const see = (req, res) => res.render("watch.pug", { pageTitle: "Watch", });
+export const edit = (req, res) => res.render("edit.pug", { pageTitle: "Edit", });
 
 export const deleteVideo = (req, res) => {
-    console.log(req.params);
     res.send("Delete video");
 }
 
