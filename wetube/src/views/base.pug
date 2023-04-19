@@ -8,17 +8,11 @@ html(lang="en")
         link(rel="stylesheet" href="https://unpkg.com/mvp.css")
     body 
         header
-            if tempUser.loggedIn
-                small Hello #{tempUser.username}
+            h1=pageTitle
             nav
                 ul 
-                    if tempUser.loggedIn
-                        li 
-                            a(href="") Logout
-                    else
-                        li
-                            a(href="/login") Login
-            h1=pageTitle
+                    li 
+                        a(href="/videos/upload") Upload video
         main
             block content
     include partials/footer.pug
