@@ -4,7 +4,32 @@ const tempUser = {
 };
 
 export const trending = (req, res) => {
-    const videos = [1, 2, 3, 4, 5];
+    const videos = [
+        {
+            title: "First video",
+            rating: 4,
+            comments: 10,
+            createdAt: "3 months ago",
+            views: 8291,
+            id: 1,
+        },
+        {
+            title: "What I'm planning",
+            rating: 4,
+            comments: 32,
+            createdAt: "2 weeks ago",
+            views: 91820,
+            id: 1,
+        },
+        {
+            title: "I'm back!",
+            rating: 5,
+            comments: 1,
+            createdAt: "2 minutes ago",
+            views: 291,
+            id: 1,
+        },
+    ];
     return res.render("home.pug", { pageTitle: "Home", tempUser: tempUser, videos});
 }
 export const see = (req, res) => res.render("watch.pug", { pageTitle: "Watch", });

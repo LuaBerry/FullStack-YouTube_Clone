@@ -1,0 +1,8 @@
+mixin showVideoInfo(info)
+    div
+        h4=info.title
+        ul 
+            li Rating #{info.rating} / 5
+            li #{info.comments} comments.
+            li Uploaded #{info.createdAt}
+            li #{info.views} views.
