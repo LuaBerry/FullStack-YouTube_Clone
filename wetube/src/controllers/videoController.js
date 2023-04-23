@@ -1,51 +1,25 @@
-const tempUser = {
-    username: "Baskin",
-    loggedIn: true,
-};
-let videos = [
-    {
-        title: "First video",
-        rating: 4,
-        comments: 10,
-        createdAt: "3 months ago",
-        views: 8291,
-        id: 1,
-    },
-    {
-        title: "What I'm planning",
-        rating: 4,
-        comments: 32,
-        createdAt: "2 weeks ago",
-        views: 91820,
-        id: 2,
-    },
-    {
-        title: "I'm back!",
-        rating: 5,
-        comments: 1,
-        createdAt: "2 minutes ago",
-        views: 291,
-        id: 3,
-    },
-];
+import mongoose from "mongoose";
+import Video from "../models/video"
 
-export const trending = (req, res) => {
-    return res.render("home.pug", { pageTitle: "Home", tempUser: tempUser, videos});
+export const home = (req, res) => {
+    Video.find({})
+    .then((videos) => {
+        return res.render("home.pug", { pageTitle: "Home", videos});
+    }).catch((err) => {
+        console.log(err);
+    })
 }
 export const see = (req, res) => {
     const { id } = req.params;
-    const video = videos[id - 1];
-    return res.render("watch.pug", { pageTitle: `Watch`, video});
+    return res.render("watch.pug", { pageTitle: `Watch`});
 }
 export const getEdit = (req, res) => {
     const { id } = req.params;
-    const video = videos[id - 1];
-    return res.render("edit.pug", { pageTitle: "Edit", video});
+    return res.render("edit.pug", { pageTitle: "Edit"});
 }
 export const postEdit = (req, res) => {
     const { id } = req.params;
     const { title } = req.body.title;
-    videos[id - 1].title = title;
     return res.redirect(`/videos/${id}`);
 }
 export const deleteVideo = (req, res) => {
@@ -57,14 +31,20 @@ export const getUpload = (req, res) => {
     return res.render("upload.pug", {pageTitle: "Upload video"});
 }
 export const postUpload = (req, res) => {
-    const video = {
+    Video.create({
         title: req.body.title,
-        rating: 0,
-        comments: 0,
-        createdAt: "just now",
-        views: 0,
-        id: videos.length + 1,
-    }
-    videos.push(video);
+        description: req.body.description,
+        createdAt: new Date(),
+        hashtags: req.body.hashtag.split(","),
+        meta: {
+            views: 0,
+            reating: 0,
+        },
+    })
+    .then((videos) => {
+        return res.render("home.pug", { pageTitle: "Home", videos});
+    }).catch((err) => {
+        console.log(err);
+    })
     return res.redirect("/");
 }

@@ -3,4 +3,6 @@ extend base.pug
 block content
     form(method="POST")
         input(name="title", placeholder="Video title", required)
+        input(name="description", placeholder="Description", required)
+        input(name="hashtag", placeholder="hashtag")
         input(value="Submit video", type="submit")
