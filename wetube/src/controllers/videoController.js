@@ -1,17 +1,19 @@
 import mongoose from "mongoose";
 import Video from "../models/video"
 
-export const home = (req, res) => {
-    Video.find({})
-    .then((videos) => {
-        return res.render("home.pug", { pageTitle: "Home", videos});
-    }).catch((err) => {
-        console.log(err);
-    })
+export const home = async (req, res) => {
+    try {
+        const videos = await Video.find({})
+        console.log(videos);
+        return res.render("home", {pageTitle: "Home", videos});
+    } catch(err) {
+        return res.render("server-error");
+    }
 }
-export const see = (req, res) => {
+export const watch = async (req, res) => {
     const { id } = req.params;
-    return res.render("watch.pug", { pageTitle: `Watch`});
+    const video = await Video.findById(id);
+    return res.render("watch.pug", { pageTitle: video.title, video});
 }
 export const getEdit = (req, res) => {
     const { id } = req.params;
@@ -28,23 +30,20 @@ export const deleteVideo = (req, res) => {
 
 export const search = (req, res) => res.send("Search video");
 export const getUpload = (req, res) => {
-    return res.render("upload.pug", {pageTitle: "Upload video"});
+    return res.render("upload.pug", {pageTitle: "Upload"});
 }
-export const postUpload = (req, res) => {
-    Video.create({
-        title: req.body.title,
-        description: req.body.description,
-        createdAt: new Date(),
-        hashtags: req.body.hashtag.split(","),
-        meta: {
-            views: 0,
-            reating: 0,
-        },
-    })
-    .then((videos) => {
-        return res.render("home.pug", { pageTitle: "Home", videos});
-    }).catch((err) => {
-        console.log(err);
-    })
+export const postUpload = async (req, res) => {
+    try {
+        await Video.create({
+            title: req.body.title,
+            description: req.body.description,
+            hashtags: req.body.hashtags.split(",").map(word => `#${word}`),
+        });
+    } catch(err) {
+        return res.render("upload.pug", {
+            pageTitle: "Upload", 
+            errorMessage:err._message
+        });
+    }
     return res.redirect("/");
 }
