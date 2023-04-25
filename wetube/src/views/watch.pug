@@ -5,5 +5,9 @@ block content
     p=video.description
     small=video.createdAt
     h5 #{video.meta.views} #{video.views === 1 ? "view" : "views"}
-    h5=video.hashtags
+    ul
+        each hashtag in video.hashtags
+            li=hashtag
     a(href=`${video.id}/edit`) Edit Video &rarr;
+    br
+    a(href=`${video.id}/delete`) Delete Video &rarr;

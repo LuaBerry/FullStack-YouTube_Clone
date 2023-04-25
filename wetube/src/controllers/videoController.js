@@ -3,7 +3,7 @@ import Video from "../models/video"
 
 export const home = async (req, res) => {
     try {
-        const videos = await Video.find({})
+        const videos = await Video.find({}).sort({createdAt:"desc"});
         console.log(videos);
         return res.render("home", {pageTitle: "Home", videos});
     } catch(err) {
@@ -29,7 +29,7 @@ export const getEdit = async (req, res) => {
 export const postEdit = async (req, res) => {
     const { id } = req.params;
     const {title, description, hashtags} = req.body;
-    const isVideoExist = await Video.exist({_id:id});
+    const isVideoExist = await Video.exists({_id:id});
     if(!isVideoExist){
         return res.render("404", {pageTitle:"Video not found"});
     }
@@ -40,11 +40,24 @@ export const postEdit = async (req, res) => {
     })
     return res.redirect(`/videos/${id}`);
 }
-export const deleteVideo = (req, res) => {
-    return res.send("Delete video");
+export const deleteVideo = async (req, res) => {
+    const { id } = req.params;
+    await Video.findByIdAndDelete(id);
+    return res.redirect("/");
 }
 
-export const search = (req, res) => res.send("Search video");
+export const search = async (req, res) => {
+    const {keyword} = req.query;
+    let videos = []
+    if(keyword) {
+        videos = await Video.find({
+            title: {
+                $regex: new RegExp(keyword, "i")
+            }
+        });
+    }
+    return res.render("search", {pageTitle: "Search", videos});
+}
 export const getUpload = (req, res) => {
     return res.render("upload.pug", {pageTitle: "Upload"});
 }
