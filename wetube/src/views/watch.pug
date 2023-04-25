@@ -4,6 +4,6 @@ block content
     h1=video.title
     p=video.description
     small=video.createdAt
-    h3 #{video.meta.views} #{video.views === 1 ? "view" : "views"}
-    h3 #{video.meta.comments} comments
+    h5 #{video.meta.views} #{video.views === 1 ? "view" : "views"}
+    h5=video.hashtags
     a(href=`${video.id}/edit`) Edit Video &rarr;
