@@ -1,8 +1,36 @@
-export const join = (req, res) => res.send("Join");
-export const edit = (req, res) => res.send("Edit user");
-export const remove = (req, res) => res.send("Remove user");
-export const login = (req, res) => res.send("User login");
-export const logout = (req, res) => res.send("User logout");
+export const getJoin = (req, res) => {
+
+    return res.render("join.pug", {pageTitle: "Join"});
+}
+
+export const postJoin = (req, res) => {
+    const { email, name, username, password, location} = req.body;
+    
+    return res.redirect("/");
+}
+
+export const getEdit = (req, res) => {
+
+    return res.render("", );
+}
+
+export const postEdit = (req, res) => {
+
+    return res.render("", );
+}
+
+export const remove = (req, res) => {
+
+    return res.render("", );
+}
+export const login = (req, res) => {
+
+    return res.render("", );
+}
+export const logout = (req, res) => {
+
+    return res.render("", );
+}
 export const watch = (req, res) => {
     console.log(req.params);
     res.send("See user");
