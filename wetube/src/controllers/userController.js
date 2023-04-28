@@ -73,12 +73,14 @@ export const postLogin = async (req, res) => {
             errorMessage: "Password incorrect.",
         });
     }
+    req.session.loggedIn = true;
+    req.session.user = user;
 
     return res.redirect("/");
 }
 export const logout = (req, res) => {
-
-    return res.render("", );
+    req.session.destroy();
+    return res.redirect("/");
 }
 export const watch = (req, res) => {
     console.log(req.params);
