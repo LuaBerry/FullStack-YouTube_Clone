@@ -1,4 +1,5 @@
 import User from "../models/user";
+import fetch from "node-fetch";
 import bcrypt, { hash } from "bcrypt";
 
 export const getJoin = (req, res) => {
@@ -82,6 +83,74 @@ export const logout = (req, res) => {
     req.session.destroy();
     return res.redirect("/");
 }
+
+export const startGithubLogin = (req, res) => {
+    const baseUrl = "https://github.com/login/oauth/authorize";
+    const config = {
+        client_id: process.env.GH_CLIENT,
+        scope: "read:user user:email",
+    };
+    const params = new URLSearchParams(config).toString();
+    return res.redirect(`${baseUrl}?${params}`);
+}
+
+export const finishGithubLogin = async (req, res) => {
+    const baseUrl = "https://github.com/login/oauth/access_token"
+    const config = {
+        client_id: process.env.GH_CLIENT,
+        client_secret: process.env.GH_SECRET,
+        code: req.query.code,
+    }
+    const params = new URLSearchParams(config).toString();
+
+    const tokenRequest = await( 
+        await fetch(`${baseUrl}?${params}`, {
+        method:"post",
+        headers: {
+            Accept: "application/json",
+        },
+    })).json();
+    
+    if("access_token" in tokenRequest){
+        const { access_token } = tokenRequest;
+        const apiUrl = "https://api.github.com";
+
+        const userData = await (await fetch(apiUrl + "/user", {
+            headers: {
+                Authorization: `token ${access_token}`,
+            }
+        })).json();
+
+        const emailData = await (await fetch(apiUrl + "/user/emails", {
+            headers: {
+                Authorization: `token ${access_token}`,
+            }
+        })).json();
+        const emailObj = emailData.find(
+            (email) => email.primary === true && email.verified === true
+        );
+        if(!emailObj) {
+            return res.redirect("/login");
+        }
+        const user = await User.findOne({ email: emailObj.email});
+        if(user) {
+            req.session.loggedIn = true;
+            req.session.user = user;
+            return res.redirect("/");
+        } else {
+            return res.render("join", {
+                pageTitle: "Join", 
+                email: emailObj.email, 
+                name: userData.login,
+                username: userData.login,
+                location: userData.location,
+                });
+        }
+    } else {
+        return res.redirect("/login");
+    }
+}
+
 export const watch = (req, res) => {
     console.log(req.params);
     res.send("See user");
