@@ -12,16 +12,16 @@ html(lang="en")
             nav
                 ul 
                     li 
-                        a(href="/videos/upload") Upload video
-                    li 
                         a(href="/") Home
                     li
                         a(href="/search") Search
                     if loggedIn
                         li 
+                            a(href="/users/edit") Edit Profile
+                        li 
                             a(href="/users/logout") Logout
-                        li
-                            span Welcome #{user.username}
+                        li 
+                            a(href="/videos/upload") Upload video
                     else
                         li
                             a(href="/join") Join

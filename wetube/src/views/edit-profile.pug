@@ -1,0 +1,13 @@
+extends base.pug
+
+block content
+    form(method="post")
+        span Name
+        input(name="name", type="text", required, placeholder="Name", value=user.name)
+        span Email
+        input(name="email", type="email", required, placeholder="Email adress", value=user.email)
+        span Username
+        input(name="username", type="text", required, placeholder="User name", value=user.username)
+        span Location
+        input(name="location", type="text", required, placeholder="Location", value=user.location)
+        input(type="submit", value="Update Profile",)

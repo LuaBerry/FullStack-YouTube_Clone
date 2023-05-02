@@ -3,7 +3,7 @@ extends base
 block content
     if errorMessage
         span=errorMessage
-    form(method="post")
+    form(method="post", action="/join")
         span Name
         input(name="name", type="text", required, placeholder="Name", value=name)
         span Email

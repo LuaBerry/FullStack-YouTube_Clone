@@ -42,12 +42,22 @@ export const postJoin = async (req, res) => {
 
 export const getEdit = (req, res) => {
 
-    return res.render("", );
+    return res.render("edit-profile.pug", {pageTitle: "Edit Profile", });
 }
 
-export const postEdit = (req, res) => {
-
-    return res.render("", );
+export const postEdit = async (req, res) => {
+    const _id = req.session.user._id;
+    const { name, username, email, location } = req.body;
+    const updatedUser = await User.findByIdAndUpdate(_id, {
+        name,
+        email,
+        username,
+        location,
+    }, { 
+        new: true
+    });
+    req.session.user = updatedUser;
+    return res.redirect("/users/edit");
 }
 
 export const remove = (req, res) => {
@@ -60,7 +70,7 @@ export const getLogin = (req, res) => {
 }
 
 export const postLogin = async (req, res) => {
-    const { username, password} = req.body;
+    const { username, password } = req.body;
     const user = await User.findOne({username});
     if(!user) {
         return res.status(400).render("login", {
