@@ -48,6 +48,17 @@ export const getEdit = (req, res) => {
 export const postEdit = async (req, res) => {
     const _id = req.session.user._id;
     const { name, username, email, location } = req.body;
+    let matchedUser = await User.findOne({ username });
+    if(matchedUser && matchedUser._id.toString() !== _id) {
+        console.log("redirecting-username overlap");
+        return res.redirect("/users/edit");
+    }
+    matchedUser = await User.findOne({ email });
+    if(matchedUser && matchedUser._id.toString() !== _id) {
+        console.log("redirecting-email overlap");
+        return res.redirect("/users/edit");
+    }
+
     const updatedUser = await User.findByIdAndUpdate(_id, {
         name,
         email,
@@ -56,14 +67,11 @@ export const postEdit = async (req, res) => {
     }, { 
         new: true
     });
+
     req.session.user = updatedUser;
     return res.redirect("/users/edit");
 }
 
-export const remove = (req, res) => {
-
-    return res.render("", );
-}
 export const getLogin = (req, res) => {
 
     return res.render("login", {pageTitle: "Login"});
@@ -159,6 +167,33 @@ export const finishGithubLogin = async (req, res) => {
     } else {
         return res.redirect("/login");
     }
+}
+
+export const getChangePassword = (req, res) => {
+    return res.render("change-password", { pageTitle: "Change Password" });
+}
+
+export const postChangePassword = async (req, res) => {
+    const user = req.session.user;
+    const { oldPassword, newPassword, newPasswordConfirm } = req.body;
+
+    if(newPassword !== newPasswordConfirm) {
+        console.log("two Password not match");
+        return res.status(400).render("change-password", { pageTitle: "Change Password"});
+    }
+
+    const ok = await bcrypt.compare(oldPassword, user.password);
+    if(!ok) {
+        console.log("old Password not match");
+        return res.status(400).render("change-password", { pageTitle: "Change Password"});
+    }
+    const dbUser = await User.findById(user._id);
+    dbUser.password = newPassword;
+    await dbUser.save();
+
+    req.session.user = dbUser;
+
+    return res.redirect("/");
 }
 
 export const watch = (req, res) => {
