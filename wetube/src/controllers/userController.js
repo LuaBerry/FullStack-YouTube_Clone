@@ -46,20 +46,22 @@ export const getEdit = (req, res) => {
 }
 
 export const postEdit = async (req, res) => {
-    const _id = req.session.user._id;
+    const user = req.session.user;
     const { name, username, email, location } = req.body;
+    const avatar = req.file;
     let matchedUser = await User.findOne({ username });
-    if(matchedUser && matchedUser._id.toString() !== _id) {
+    if(matchedUser && matchedUser._id.toString() !== user._id) {
         console.log("redirecting-username overlap");
         return res.redirect("/users/edit");
     }
     matchedUser = await User.findOne({ email });
-    if(matchedUser && matchedUser._id.toString() !== _id) {
+    if(matchedUser && matchedUser._id.toString() !== user._id) {
         console.log("redirecting-email overlap");
         return res.redirect("/users/edit");
     }
 
-    const updatedUser = await User.findByIdAndUpdate(_id, {
+    const updatedUser = await User.findByIdAndUpdate(user._id, {
+        avatarUrl: avatar ? avatar.path : user.avatarUrl,
         name,
         email,
         username,

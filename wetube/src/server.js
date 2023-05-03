@@ -24,6 +24,7 @@ app.use(localsMiddleware);
 app.use("/", rootRouter);
 app.use("/videos", videoRouter);
 app.use("/users", userRouter);
+app.use("/uploads", express.static("uploads"));
 
 app.get("/", (req, res) => res.send("<h1>Home</h1>"));
 

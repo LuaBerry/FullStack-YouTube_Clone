@@ -1,9 +1,12 @@
 extends base.pug
 
 block content
-    form(method="post")
+    img(src="/" + user.avatarUrl, width="100px", height="100px")
+    form(method="post", enctype="multipart/form-data")
         span Name
         input(name="name", type="text", required, placeholder="Name", value=user.name)
+        lavel(for="avatar") Avatar
+        input(type="file", id="avatar", name="avatar", accept="image/*")
         span Email
         input(name="email", type="email", required, placeholder="Email adress", value=user.email)
         span Username

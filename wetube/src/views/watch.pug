@@ -2,6 +2,7 @@ extends base.pug
 
 block content
     h1=video.title
+    video(src="/"+video.fileUrl, controls, width="720px")
     p=video.description
     small=video.createdAt
     h5 #{video.meta.views} #{video.views === 1 ? "view" : "views"}
