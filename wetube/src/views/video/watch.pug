@@ -1,14 +1,18 @@
-extends base.pug
+extends ../base.pug
 
 block content
     h1=video.title
     video(src="/"+video.fileUrl, controls, width="720px")
     p=video.description
     small=video.createdAt
+    br 
+    small Uploaded by 
+        a(href="/users/" + video.owner._id)=video.owner.name
     h5 #{video.meta.views} #{video.views === 1 ? "view" : "views"}
     ul
         each hashtag in video.hashtags
             li=hashtag
-    a(href=`${video.id}/edit`) Edit Video &rarr;
-    br
-    a(href=`${video.id}/delete`) Delete Video &rarr;
+    if video.owner._id == user._id
+        a(href=`${video.id}/edit`) Edit Video &rarr;
+        br
+        a(href=`${video.id}/delete`) Delete Video &rarr;
