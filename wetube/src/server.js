@@ -25,6 +25,7 @@ app.use("/", rootRouter);
 app.use("/videos", videoRouter);
 app.use("/users", userRouter);
 app.use("/uploads", express.static("uploads"));
+app.use("/assets", express.static("assets"));
 
 app.get("/", (req, res) => res.send("<h1>Home</h1>"));
 
