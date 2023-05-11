@@ -109,15 +109,13 @@ video.addEventListener("click", handlePlay);
 document.addEventListener("keydown", (event) => {
     if(event.code === "ArrowLeft") {
         video.currentTime -= 5;
-    }
-    if(event.code === "ArrowRight") {
+    } else if(event.code === "ArrowRight") {
         video.currentTime += 5;
         if(video.paused) {
             playBtnIcon.classList = "fas fa-play";
             handleTimeUpdate();
         }
-    }
-    if(event.code === "Space") {
+    } else if(event.code === "Space") {
         handlePlay();
     }
 })
