@@ -96,16 +96,23 @@ const handleMouseLeave = (event) => {
     videoControls.classList.remove("showing");
 }
 
+const handleEnded = (event) => {
+    fetch(`/api/videos/${videoContainer.dataset.id}/view`, {
+        method: "post",
+    });
+}
+
+videoContainer.addEventListener("mousemove", handleMouseMove);
+videoContainer.addEventListener("mouseleave", handleMouseLeave);
+video.addEventListener("timeupdate", handleTimeUpdate);
+video.addEventListener("ended", (event) => { playBtnIcon.classList = "fas fa-play"; })
+video.addEventListener("click", handlePlay);
+video.addEventListener("ended", handleEnded);
 playBtn.addEventListener("click", handlePlay);
 muteBtn.addEventListener("click", handleMute);
 volumeRange.addEventListener("input", handleVolumeChange);
-video.addEventListener("timeupdate", handleTimeUpdate);
-video.addEventListener("ended", (event) => { playBtnIcon.classList = "fas fa-play"; })
 timeline.addEventListener("input", handleTimeline);
 fullScreenBtn.addEventListener("click", handleFullscreen);
-videoContainer.addEventListener("mousemove", handleMouseMove);
-videoContainer.addEventListener("mouseleave", handleMouseLeave);
-video.addEventListener("click", handlePlay);
 document.addEventListener("keydown", (event) => {
     if(event.code === "ArrowLeft") {
         video.currentTime -= 5;
@@ -119,7 +126,6 @@ document.addEventListener("keydown", (event) => {
         handlePlay();
     }
 })
-
 video.readyState
     ? handleLoadedMetadata()
     : video.addEventListener("loadedmetadata", handleLoadedMetadata);
