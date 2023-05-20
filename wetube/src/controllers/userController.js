@@ -194,9 +194,8 @@ export const postChangePassword = async (req, res) => {
     const dbUser = await User.findById(user._id);
     dbUser.password = newPassword;
     await dbUser.save();
-
     req.session.user = dbUser;
-
+    req.flash("info", "Password updated");
     return res.redirect("/");
 }
 

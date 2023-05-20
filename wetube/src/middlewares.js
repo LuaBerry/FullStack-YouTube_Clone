@@ -11,6 +11,7 @@ export const privatePageMiddleware = (req, res, next) => {
     if(req.session.loggedIn) {
         return next();
     }
+    req.flash("error", "Not authorized");
     return res.redirect("/login");
 }
 
@@ -18,6 +19,7 @@ export const publicPageMiddleware = (req, res, next) => {
     if(!req.session.loggedIn) {
         return next();
     }
+    req.flash("error", "Not authorized");
     return res.redirect("/");
 }
 
