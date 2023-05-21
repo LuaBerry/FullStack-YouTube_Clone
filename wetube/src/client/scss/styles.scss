@@ -16,6 +16,10 @@
         background-color: tomato;
         color: white;
     }
+    &.error {
+        background-color: gray;
+        color: white;
+    }
 }
 
 @keyframes goAway {
