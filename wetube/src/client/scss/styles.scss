@@ -33,3 +33,20 @@
     }
     
 }
+
+.comment {
+    padding: 20px;
+    margin: 20px;
+    margin-left: 0;
+    border-radius: 5px;
+    span {
+        padding: 5px;
+    }
+    span:first-child {
+        font-size: 16px;
+    }
+    span:last-child {
+        display: block;
+        font-size: 18px;
+    }
+}
