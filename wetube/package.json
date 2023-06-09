@@ -1,9 +1,8 @@
 {
   "name": "wetube",
   "version": "1.0.0",
-  "description": "YouTube Clonecode Site.",
+  "description": "YouTube clonecode website.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon",
     "assets": "webpack",
     "start": "node build/init.js"
@@ -12,7 +11,7 @@
     "type": "git",
     "url": "(https://github.com/Baskin-Lazpberry/FullStack-YouTube_Clone)"
   },
-  "author": "Jeong In, Yeo<lazpberry1012@gmail.com>",
+  "author": "Yeo, Jeong In<lazpberry1012@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.1.0",
