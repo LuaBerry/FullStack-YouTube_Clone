@@ -3,10 +3,13 @@ extends ../base.pug
 block content 
     h4 Update "#{video.title}"
     form(method="POST")
+        span Title
         input(name="title", placeholder="New video title", 
         value=video.title, required, maxLength=30)
+        span Description
         input(name="description", placeholder="New video description", 
         value=video.description, required,  minLength=10, maxLength=200)
+        span Hashtags
         input(name="hashtags", placeholder="New video hashtags", 
         value=video.hashtags.join(), required)
         input(value="Save", type="submit")
