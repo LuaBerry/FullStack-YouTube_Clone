@@ -3,8 +3,8 @@ include ../mixins/video
 
 block content
     form(method="GET")
-        span Keyword
-        input(name="keyword", placeholder="Search by title", type="text")
+        span Search
+        input(name="keyword", placeholder="title", type="text")
         input(type="submit", value="Search now")
     div
         each video in videos
