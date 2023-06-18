@@ -4,7 +4,9 @@ block content
     if errorMessage
         span=errorMessage
     form(method="post")
+        span Username
         input(name="username", type="text", required, placeholder="User name")
+        span Password
         input(name="password", type="password", required, placeholder="Password")
         input(type="submit", value="Login",)
         br
