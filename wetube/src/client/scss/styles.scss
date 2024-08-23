@@ -50,3 +50,22 @@
         font-size: 18px;
     }
 }
+
+#headnav {
+    margin-bottom: 10px;
+  }
+  
+header, main {
+padding: 1rem;
+}
+
+.hashtags {
+    display: flex;
+    flex-direction: row;
+    padding-left: 0;
+}
+
+.hashtags li {
+    list-style: none;
+    margin-right: 10px;
+}

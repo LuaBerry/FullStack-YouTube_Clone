@@ -1,7 +1,6 @@
-import mongoose from "mongoose";
-import Video from "../models/Video"
-import User from "../models/User";
 import Comment from "../models/Comment";
+import User from "../models/User";
+import Video from "../models/Video";
 
 export const home = async (req, res) => {
     try {

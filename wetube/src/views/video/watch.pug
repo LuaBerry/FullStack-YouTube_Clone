@@ -27,7 +27,7 @@ block content
     small Uploaded by 
         a(href="/users/" + video.owner._id)=video.owner.name
     h5 #{video.meta.views} #{video.views === 1 ? "view" : "views"}
-    ul
+    ul.hashtags
         each hashtag in video.hashtags
             li=hashtag
     if video.owner._id == user._id
